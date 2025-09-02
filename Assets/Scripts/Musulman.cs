@@ -20,6 +20,7 @@ public class Musulman : MonoBehaviour
 
     // Evento estático que se dispara cuando un enemigo muere.
     public static event Action OnMusulmDeath;
+    public static event Action<int> Puntaje;
 
     private NavMeshAgent agent;
     private Transform objetivo;
@@ -84,7 +85,18 @@ public class Musulman : MonoBehaviour
             RecibirDano(1); // Asumimos que cada bala hace 1 de daño.
             Destroy(collision.gameObject); // Destruimos la bala.
         }
-
+        if (collision.gameObject.CompareTag("Bala1"))
+        {
+            RecibirDano(1); // Asumimos que cada bala hace 1 de daño.
+            Puntaje?.Invoke(1);
+            Destroy(collision.gameObject); // Destruimos la bala.
+        }
+        if (collision.gameObject.CompareTag("Bala2"))
+        {
+            RecibirDano(1); // Asumimos que cada bala hace 1 de daño.
+            Puntaje?.Invoke(2);
+            Destroy(collision.gameObject); // Destruimos la bala.
+        }
         // Si chocamos con el jugador...
         if (collision.gameObject.CompareTag("Player"))
         {

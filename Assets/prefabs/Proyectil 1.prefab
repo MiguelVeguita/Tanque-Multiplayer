@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 1016659695344891538}
   - component: {fileID: -803452404847220544}
   m_Layer: 0
-  m_Name: Proyectil
-  m_TagString: Bala1
+  m_Name: Proyectil 1
+  m_TagString: Bala2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

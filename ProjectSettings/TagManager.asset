@@ -6,6 +6,8 @@ TagManager:
   tags:
   - New tag
   - Bala
+  - Bala1
+  - Bala2
   layers:
   - Default
   - TransparentFX
