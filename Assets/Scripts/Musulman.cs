@@ -59,13 +59,14 @@ public class Musulman : MonoBehaviour
         }
     }
 
-    public void RecibirDano(int cantidad)
+    public void RecibirDano(int cantidad, int idenemi)
     {
         vidaActual -= cantidad;
         barraDeVida.ActualizarBarraDeVida(vidaActual, vidaMaxima);
 
         if (vidaActual <= 0)
         {
+            Puntaje?.Invoke(idenemi);
             Morir();
         }
     }
@@ -79,22 +80,15 @@ public class Musulman : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        // Si chocamos con una bala, recibimos daño.
-        if (collision.gameObject.CompareTag("Bala"))
-        {
-            RecibirDano(1); // Asumimos que cada bala hace 1 de daño.
-            Destroy(collision.gameObject); // Destruimos la bala.
-        }
+       
         if (collision.gameObject.CompareTag("Bala1"))
         {
-            RecibirDano(1); // Asumimos que cada bala hace 1 de daño.
-            Puntaje?.Invoke(1);
+            RecibirDano(1,1); // Asumimos que cada bala hace 1 de daño.
             Destroy(collision.gameObject); // Destruimos la bala.
         }
         if (collision.gameObject.CompareTag("Bala2"))
         {
-            RecibirDano(1); // Asumimos que cada bala hace 1 de daño.
-            Puntaje?.Invoke(2);
+            RecibirDano(1, 2); // Asumimos que cada bala hace 1 de daño.
             Destroy(collision.gameObject); // Destruimos la bala.
         }
         // Si chocamos con el jugador...
