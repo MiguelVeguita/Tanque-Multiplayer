@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
+using System.Collections;
 
 public class ControladorMovimiento : MonoBehaviour
 {
     [Header("Configuración de Movimiento")]
     [Tooltip("La velocidad de avance y retroceso del tanque.")]
     public float velocidad = 10.0f;
+    [SerializeField] float currentSpeed = 0;
 
     [Header("Configuración de Rotación")]
     [Tooltip("La velocidad con la que el chasis del tanque gira sobre su eje.")]
@@ -13,7 +16,16 @@ public class ControladorMovimiento : MonoBehaviour
 
     private Rigidbody rb;
     private Vector2 direccionMovimiento;
-
+    private void OnEnable()
+    {
+        SpeedPowerUP.OnSpeedUpdate += IncreaseSpeed;
+        Debug.Log("enable");
+    }
+    private void OnDisable()
+    {
+        SpeedPowerUP.OnSpeedUpdate -= IncreaseSpeed;
+        Debug.Log("disable");
+    }
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,10 +47,20 @@ public class ControladorMovimiento : MonoBehaviour
         // Usamos el input VERTICAL (W/S o stick arriba/abajo) para el movimiento.
         // El movimiento siempre es en la dirección "hacia adelante" del tanque (transform.forward).
         // Time.fixedDeltaTime es importante para que el movimiento sea consistente sin importar el framerate.
-        Vector3 movimiento = transform.forward * direccionMovimiento.y * velocidad * Time.fixedDeltaTime;
+        if (currentSpeed > velocidad)
+        {
+            Vector3 movimiento = transform.forward * direccionMovimiento.y * currentSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + movimiento);
+        }
+        else
+        {
+            Vector3 movimiento = transform.forward * direccionMovimiento.y * velocidad * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + movimiento);
+        }
+
 
         // Usamos MovePosition para aplicar el movimiento respetando las físicas.
-        rb.MovePosition(rb.position + movimiento);
+       // rb.MovePosition(rb.position + movimiento);
 
 
         // --- LÓGICA DE ROTACIÓN (GIRO) ---
@@ -53,4 +75,20 @@ public class ControladorMovimiento : MonoBehaviour
         // Multiplicar quaternions combina sus rotaciones.
         rb.MoveRotation(rb.rotation * rotacion);
     }
+    void IncreaseSpeed(int updateSpeed, float duration)
+    {
+        StartCoroutine(SpeedActivation(updateSpeed, duration));
+    }
+
+    IEnumerator SpeedActivation(int updateSpeed, float duration)
+    {
+        currentSpeed = velocidad + updateSpeed;
+        Debug.Log(currentSpeed);
+        yield return new WaitForSeconds(duration);
+
+        currentSpeed = velocidad;
+        Debug.Log(currentSpeed);
+    }
+
+
 }
