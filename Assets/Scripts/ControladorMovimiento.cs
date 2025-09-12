@@ -30,8 +30,7 @@ public class ControladorMovimiento : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        // Congelamos la rotación en X y Z para evitar que el tanque se vuelque,
-        // pero dejamos el eje Y libre para poder rotar.
+        
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
@@ -42,11 +41,7 @@ public class ControladorMovimiento : MonoBehaviour
 
     void FixedUpdate()
     {
-        // --- LÓGICA DE MOVIMIENTO (AVANCE/RETROCESO) ---
-
-        // Usamos el input VERTICAL (W/S o stick arriba/abajo) para el movimiento.
-        // El movimiento siempre es en la dirección "hacia adelante" del tanque (transform.forward).
-        // Time.fixedDeltaTime es importante para que el movimiento sea consistente sin importar el framerate.
+        
         if (currentSpeed > velocidad)
         {
             Vector3 movimiento = transform.forward * direccionMovimiento.y * currentSpeed * Time.fixedDeltaTime;
@@ -59,20 +54,16 @@ public class ControladorMovimiento : MonoBehaviour
         }
 
 
-        // Usamos MovePosition para aplicar el movimiento respetando las físicas.
-       // rb.MovePosition(rb.position + movimiento);
+      
 
 
-        // --- LÓGICA DE ROTACIÓN (GIRO) ---
-
-        // Usamos el input HORIZONTAL (A/D o stick izq/der) para la rotación.
+        
         float giro = direccionMovimiento.x * velocidadRotacion * Time.fixedDeltaTime;
 
-        // Creamos una rotación alrededor del eje Y (el eje vertical).
+       
         Quaternion rotacion = Quaternion.Euler(0f, giro, 0f);
 
-        // Usamos MoveRotation para aplicar la rotación al Rigidbody.
-        // Multiplicar quaternions combina sus rotaciones.
+      
         rb.MoveRotation(rb.rotation * rotacion);
     }
     void IncreaseSpeed(int updateSpeed, float duration)

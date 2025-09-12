@@ -15,9 +15,11 @@ public class VidaDelJugador : MonoBehaviour
     public int id;
 
     public GameObject cam,panel,panel2;
+    public ControladorMovimiento script;
 
     void Start()
     {
+       script.enabled = true; ;
         cam.gameObject.SetActive(false);
         vidaActual = vidaMaxima;
         ActualizarBarraDeVida();
@@ -39,24 +41,25 @@ public class VidaDelJugador : MonoBehaviour
     {
         if (barraDeVidaUI != null)
         {
-            // Normalizamos la vida para el slider (valor de 0 a 1).
             barraDeVidaUI.value = (float)vidaActual / vidaMaxima;
         }
     }
 
     void Morir(int id)
     {
-        if(id == 1)
+        script.enabled = false; ;
+        if (id == 1)
         {
+            cam.gameObject.SetActive(true);
             panel.SetActive(true);
         }
         else
         {
+            cam.gameObject.SetActive(true);
+
             panel2.SetActive(true);
         }
-        // Aquí puedes poner lógica de "Game Over", como reiniciar la escena.
         Debug.Log("¡El jugador ha muerto!");
-        // Reinicia la escena actual.
        
     }
 
