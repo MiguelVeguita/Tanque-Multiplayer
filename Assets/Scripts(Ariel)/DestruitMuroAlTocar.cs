@@ -10,14 +10,11 @@ public class DestruirMuroAlTocar : MonoBehaviour
         // Guardamos la referencia a nuestro exploder reactivo.
         reactiveExploder = GetComponent<SBS.ME.ReactiveMeshExploder>();
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
+
     private void OnCollisionEnter(Collision collision)
     {
         // Solo reaccionamos al primer choque con el Player.
-        if (reactiveExploder != null && collision.gameObject.CompareTag("Player"))
+        if (reactiveExploder != null && collision.gameObject.CompareTag("Player")|| reactiveExploder != null && collision.gameObject.CompareTag("Player2"))
         {
             Debug.Log("hehehe");
             // Obtenemos el punto exacto del impacto.
